@@ -1,0 +1,118 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function pim_pam_install() {
+  // Enable some standard blocks.
+  $default_theme = variable_get('theme_default', 'bartik');
+
+  $html_format = array(
+    'format' => 'html',
+    'name' => 'HTML',
+    'weight' => 1,
+    'filters' => array(
+
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $html_format = (object) $html_format;
+  filter_format_save($html_format);
+
+  $editor_format = array(
+    'format' => 'editor',
+    'name' => 'Editor',
+    'weight' => 0,
+    'filters' => array(
+
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $editor_format = (object) $editor_format;
+  filter_format_save($editor_format);
+
+  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  foreach ($values as $record) {
+    $query->values($record);
+  }
+  $query->execute();
+
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => st('Basic page'),
+      'base' => 'node_content',
+      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+
+  variable_set('jquery_update_jquery_version', '1.9');
+
+  // Clear caches.
+  drupal_flush_all_caches();
+
+  /// New Admin Role
+
+  $role = new stdClass;
+  $role->name = 'administrator';
+  $role->weight = 3;
+  user_role_save($role);
+  $roleid_1 = $role->rid;
+
+  $perms = array(
+  'access content',
+  );
+  user_role_grant_permissions($roleid_1, $perms);
+
+  theme_enable(array('adminimal'));
+  variable_set('node_admin_theme', 1);
+  variable_set('admin_theme', 'adminimal');
+
+  // Allow visitor account creation, but with administrative approval.
+  variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
+
+  // Enable default permissions for system roles.
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content'));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content'));
+}

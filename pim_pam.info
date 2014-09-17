@@ -1,0 +1,44 @@
+name = Pim Pam Installation profile by Lluís Andreu
+description = Includes a custom install for a basic site
+core = 7.x
+
+;core modules
+
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = field_ui
+dependencies[] = field
+dependencies[] = file
+
+;contrib modules
+
+dependencies[] = ctools
+dependencies[] = adminimal_admin_menu
+dependencies[] = devel
+dependencies[] = field_group
+dependencies[] = globalredirect
+dependencies[] = googleanalytics
+dependencies[] = libraries
+dependencies[] = metatags_quick
+dependencies[] = metatags_quick_extra
+dependencies[] = module_filter
+dependencies[] = redirect
+dependencies[] = pathauto
+dependencies[] = page_title
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = xmlsitemap
+dependencies[] = ckeditor
+dependencies[] = ckeditor_link
+dependencies[] = quickedit
+dependencies[] = token
+dependencies[] = entity
+dependencies[] = jquery_update
+
+
