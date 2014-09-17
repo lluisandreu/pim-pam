@@ -1,0 +1,42 @@
+/* links */
+a:link, a:visited, a:hover {color: #5eb6e5;}
+
+/* Blockquote */
+blockquote {font-style: italic;}
+
+/* inputs */
+input[type=text], input[type=search], input[type=email], input[type=password], input[type=tel], select {max-width: 250px;}
+input[type=submit] {cursor: pointer;}
+select[multiple] {padding: 5px; font-family: $font-family; border: 1px solid #ccc;}
+input[type=checkbox], .form-type-checkbox {margin: 10px 0;}
+
+/* Menus */
+ul {margin: 0; padding: 0;}
+li {margin: 0; list-style: none; list-style-image: none; list-style-type: none;}
+.field-name-body ul {margin: inherit !important; padding: inherit !important;}
+.field-name-body li {list-style: inherit !important; list-style-image: inherit !important; list-style-type: inherit !important;}
+
+/* images in text */
+.field-name-body img {-moz-border-radius:4px; border-radius:4px; height: auto !important;}
+.field-name-body img.right {float: right; margin: 1em 0 1em 1em; }
+.field-name-body img.left {float: left; margin: 1em 1em 1em 0; }
+
+/* iframe */
+iframe {width: 100%; max-width: 100%;}
+
+ /*other html elements */
+label, legend, th {font-weight: $font-weight-semibold;}
+label.option {display: initial !important;}
+strong {font-weight: $font-weight-semibold;}
+
+/* Grippie */
+.resizable-textarea .grippie {margin-top: -12px;}
+
+/// Fix bug in Quickbar
+#quickbar > * {
+    box-sizing: content-box;
+}
+
+
+
+

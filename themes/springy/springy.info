@@ -1,0 +1,38 @@
+name = Springy Base Theme
+description = Springy is a Drupal theme based on Gumby Sass Framework and HTML5 standards. Developed and adapted by Lluis Oliver. Visit Gumby for documentation http://gumbyframework.com/.
+version = 7.x-1.4
+core = 7.x
+
+stylesheets[all][] = stylesheets/gumby.css
+
+;initiate Gumby minified
+scripts[] = js/libs/jquery.mobile.custom.min.js
+scripts[] = js/gumby.min.js
+
+scripts[] = js/springy.custom.min.js
+
+features[] = logo
+features[] = favicon
+
+regions[header]         =      Header
+regions[nav]            =      Navigation
+;regions[banner]         =      Banner
+regions[aside]          =      Aside
+regions[content]        =      Main Content
+regions[footer_first]   =      Footer first
+regions[footer_second]  =      Footer second
+regions[footer_third]   =      Footer third
+regions[footer_forth]   =      Footer forth
+
+screenshot = springy.png
+
+settings[viewport_settings] = "width=device-width, initial-scale=1"
+settings[modernizr_settings] = 1
+settings[font_settings][open_sans] = 1
+
+;settings[font_settings][]    = roboto
+;settings[font_settings][]    = roboto_condensed
+;settings[font_settings][]    = roboto_slab
+;settings[font_settings][]    = source_sans_pro
+;settings[font_settings][]    = ubuntu
+
