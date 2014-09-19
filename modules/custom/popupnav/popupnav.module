@@ -1,0 +1,235 @@
+<?php
+
+/**
+ * @file
+ * Pop-ups a full-screen navigation
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function popupnav_block_info() {
+  $blocks['popupnav'] = array(
+    'info' => t('Pop-up Full-Screen Navigation'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function popupnav_block_configure($delta = '') {
+
+$form = array();
+
+if ($delta == 'popupnav') {
+
+$form['popupnav_settings'] = array(
+  '#type' => 'fieldset',
+  '#title' => t('Pop-up Navigation Main Settings'),
+
+    'popupnav_settings_title' => array(
+    '#type' => 'checkbox',
+    '#title' => t('Show block title as Heading'),
+    '#default_value' => variable_get('popupnav_settings_title'),
+    ),
+  'popupnav_settings_menu' => array(
+    '#type' => 'select',
+    '#title' => t('Select a menu'),
+    '#default_value' => variable_get('popupnav_settings_menu'),
+    '#options' => menu_get_menus(),
+    ),
+  'popupnav_settings_depth' => array(
+    '#type' => 'select',
+    '#title' => t('Menu depth'),
+    '#default_value' => variable_get('popupnav_settings_depth', 2),
+    '#options' => array(1,2),
+    ),
+  'popupnav_settings_collapse' => array(
+    '#type' => 'checkbox',
+    '#title' => t('Collapse children'),
+    '#default_value' => variable_get('popupnav_settings_collapse', FALSE),
+    ),
+  'popupnav_settings_trigger' => array(
+    '#type' => 'textfield',
+    '#title' => t('Menu trigger title'),
+    '#default_value' => variable_get('popupnav_settings_trigger', '<i>&#9776;</i> Menu'),
+    '#description' => t('You can use an Entypo icon font or HTML. <a href="http://www.entypo.com/characters/" target="_blank">www.entypo.com/characters</a>'),
+    ),
+    'popupnav_settings_closer' => array(
+    '#type' => 'textfield',
+    '#title' => t('Menu closer'),
+    '#default_value' => variable_get('popupnav_settings_closer', '<i>&#10060;</i>&nbsp;Close'),
+    '#description' => t('You can use an Entypo icon font or HTML. <a href="http://www.entypo.com/characters/" target="_blank">www.entypo.com/characters</a>'),
+    ),
+
+);
+
+$form['popupnav_breakpoint'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Responsive settings'),
+
+    'popupnav_breakpoint_enable' => array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable breakpoint'),
+    '#default_value' => variable_get('popupnav_breakpoint_enable', TRUE),
+    ),
+    'popupnav_breakpoint_hide' => array(
+    '#type' => 'textfield',
+    '#title' => t('Replace current menu.'),
+    '#default_value' => variable_get('popupnav_breakpoint_hide', '#block-system-main-menu'),
+    '#description' => t('Enter the ID of the menu you want to replace'),
+    ),
+    'popupnav_breakpoint_settings' => array(
+    '#type' => 'textfield',
+    '#title' => t('Respond to this screen width size'),
+    '#default_value' => variable_get('popupnav_breakpoint_settings', 600),
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#description' => t('Value in Pixels'),
+    ),
+);
+}
+return $form;
+}
+
+/**
+* Implements hook_block_save($delta = '', $edit = array().
+*/
+function popupnav_block_save($delta = '', $edit = array()) {
+
+    if ($delta == "popupnav"){
+        variable_set('popupnav_settings_menu', $edit['popupnav_settings_menu']);
+        variable_set('popupnav_settings_title', $edit['popupnav_settings_title']);
+        variable_set('popupnav_settings_depth', $edit['popupnav_settings_depth']);
+        variable_set('popupnav_settings_collapse', $edit['popupnav_settings_collapse']);
+        variable_set('popupnav_settings_trigger', $edit['popupnav_settings_trigger']);
+        variable_set('popupnav_settings_closer', $edit['popupnav_settings_closer']);
+        variable_set('popupnav_breakpoint_enable', $edit['popupnav_breakpoint_enable']);
+        variable_set('popupnav_breakpoint_settings', $edit['popupnav_breakpoint_settings']);
+        variable_set('popupnav_breakpoint_hide', $edit['popupnav_breakpoint_hide']);
+    }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function popupnav_block_view($delta = '') {
+  $block = array();
+
+   // get the selected menu data
+    $selected_menu = variable_get('popupnav_settings_menu');
+    $breakpoint = variable_get('popupnav_breakpoint_settings');
+    $menu = menu_tree_all_data($selected_menu);
+    $collapse = variable_get('popupnav_settings_collapse');
+    $replace_menu_id = str_replace(" ", "", variable_get('popupnav_breakpoint_hide'));
+
+  if($delta == "popupnav"){
+    $block['subject'] = NULL;
+    $block['content'] = array(
+        '#theme' => 'popupnav_theme',
+        '#tree' => $menu,
+        '#attributes' => array(
+            'breakpoint' => $breakpoint,
+            'replace_menu_id' => $replace_menu_id,
+            'collapse' => $collapse,
+        ),
+        '#attached' => array(
+            'css' => array(drupal_get_path("module", "popupnav") . '/popupnav.css'),
+            'js' => array(drupal_get_path("module", "popupnav") . '/popupnav.js'),
+        ),
+    );
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function popupnav_theme($existing, $type, $theme, $path) {
+  return array(
+    'popupnav_theme' => array(
+        'variables' => array(
+            'tree' => array(),
+            'attributes' => array(),
+        ),
+    ),
+    );
+}
+
+// We don't want to render the $block->subject, we will deal with it in theme()
+function popupnav_preprocess_block(&$variables, $hook){
+   if ($variables['block']->module == 'popupnav') {
+    $variables['elements']['#block']->subject = NULL;
+  }
+}
+
+function theme_popupnav_theme($variables = array()){
+
+    $block = block_load("popupnav", "popupnav");
+    $block_title = ($block->title);
+    $show_title = variable_get('popupnav_settings_title', FALSE);
+
+    $menu_depth = variable_get('popupnav_settings_depth');
+    $collapse = $variables['attributes']['collapse'];
+
+    $menu_trigger = variable_get('popupnav_settings_trigger');
+    $menu_closer = variable_get('popupnav_settings_closer');
+
+    $menu_tree = $variables['tree'];
+
+    $breakpoint_enable = variable_get('popupnav_breakpoint_enable');
+    $breakpoint = $variables['attributes']['breakpoint'];
+    $replace_menu_id = $variables['attributes']['replace_menu_id'];
+
+    $output = '<div id="popupnav-container">';
+    if($breakpoint_enable && $menu_depth > 0){
+        if(!empty($replace_menu_id)){
+            $output .= '<div id="popupnav-fullscreen" role="dialog" data-breakpoint="'.$breakpoint.'" data-replace="'.$replace_menu_id.'"><div class="popupnav-wrapper">';
+        } else {
+            $output .= '<div id="popupnav-fullscreen" role="dialog" data-breakpoint="'.$breakpoint.'"><div class="popupnav-wrapper">';
+        }
+    } else {
+        $output .= '<div id="popupnav-fullscreen" role="dialog"><div class="popupnav-wrapper">';
+    }
+    $output .= '<div class="popupnav-close"><a href="#">'.$menu_closer.'</a></div>';
+    if($show_title){
+        $output .= '<h2>'.$block_title.'</h2>';
+    }
+    $output .= '<nav class="popupnav-navigation ';
+    if($collapse && $menu_depth > 0){
+        $output .= 'collapse-children';
+    }
+    $output.= '">';
+        $output .= '<ul>';
+            foreach ($menu_tree as $link) {
+                $output .= '<li class="first-level item-' . $link['link']['mlid'];
+                if(!empty($link['below']) && $collapse && $menu_depth > 0) {
+                    $output .= ' parent-item ';
+                }
+                $output .= '">';
+                $output .= l($link['link']['link_title'], $link['link']['link_path'], $link['link']['options']);
+                        if($menu_depth > 0 && !empty($link['below'])) {
+                            $output .= '<ul';
+                            if($collapse && $menu_depth > 0){
+                                $output .=  ' class="collapse" ';
+                            }
+                            $output .= '>';
+                            foreach ($link['below'] as $second_link) {
+                                $output .= '<li class="second-level item-' . $link['link']['mlid'] . '">';
+                                $output .= l($second_link['link']['link_title'], $second_link['link']['link_path'], $second_link['link']['options']);
+                                $output .= '</li>';
+                            }
+                            $output .= '</ul>';
+                        }
+                $output .= '</li>';
+            }
+        $output .= '</ul>';
+    $output .= '</nav>';
+    $output .= '</div></div>'; //#popupnav-fullscreen and .popupnav-wrapper
+    $output .= '<div class="popupnav-trigger"><a href="#" tabindex="0">'.$menu_trigger.'</a></div>';
+    $output .= '</div>'; // #popupnav-container
+    return $output;
+}
