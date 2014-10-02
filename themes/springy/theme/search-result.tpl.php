@@ -1,6 +1,6 @@
 <?php
 $type = '';
-if(isset($result['fields']['ss_filemime']) && $result['fields']['ss_filemime'] === 'application/pdf'){
+if($result['fields']['ss_filemime'] === 'application/pdf'){
   $type = 'pdf';
 }
 ?>

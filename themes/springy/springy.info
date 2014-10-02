@@ -24,15 +24,7 @@ regions[footer_second]  =      Footer second
 regions[footer_third]   =      Footer third
 regions[footer_forth]   =      Footer forth
 
-screenshot = springy.png
+screenshot = springy_base.png
 
 settings[viewport_settings] = "width=device-width, initial-scale=1"
 settings[modernizr_settings] = 1
-settings[font_settings][open_sans] = 1
-
-;settings[font_settings][]    = roboto
-;settings[font_settings][]    = roboto_condensed
-;settings[font_settings][]    = roboto_slab
-;settings[font_settings][]    = source_sans_pro
-;settings[font_settings][]    = ubuntu
-

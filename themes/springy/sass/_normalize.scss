@@ -32,10 +32,6 @@ strong {font-weight: $font-weight-semibold;}
 /* Grippie */
 .resizable-textarea .grippie {margin-top: -12px;}
 
-/// Fix bug in Quickbar
-#quickbar > * {
-    box-sizing: content-box;
-}
 
 
 

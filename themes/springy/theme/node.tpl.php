@@ -9,7 +9,7 @@
 <?php
 global $user;
 if((in_array("administrator",$user->roles)) || ($user->uid == 1)) {
-        print '<div class="iac iac-edit pretty medium primary btn icon-left icon-pencil"><a href="'.url('node/'.$node->nid.'/edit').'">Edit this page</a></div>';
+        print '<div class="iac iac-edit pretty medium primary btn icon-left icon-pencil"><a href="'.url('node/'.$node->nid.'/edit').'">Edit in a form</a></div>';
 }
 ?>
 </div>

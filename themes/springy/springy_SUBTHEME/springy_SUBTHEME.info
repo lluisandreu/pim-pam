@@ -22,7 +22,7 @@ regions[footer_second]  =      Footer second
 regions[footer_third]   =      Footer third
 regions[footer_forth]   =      Footer forth
 
-screenshot = springy.png
+screenshot = springy_custom.png
 
 settings[viewport_settings] = "width=device-width, initial-scale=1"
 settings[modernizr_settings] = 1

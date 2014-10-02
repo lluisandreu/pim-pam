@@ -4,7 +4,6 @@ if(!module_exists("jquery_update")){
   drupal_set_message(t("Springy requires jQuery Update (> 1.9) to work properly"), 'warning', FALSE);
 }
 
-
 function springy_html_head_alter(&$head_elements) {
     if(theme_get_setting('viewport_settings')){
     $viewport_settings = theme_get_setting('viewport_settings');
@@ -17,8 +16,6 @@ function springy_html_head_alter(&$head_elements) {
       $head_elements['validation']['#markup'] = $wmt_validation_code . "\n";
     }
 }
-
-
 
 /// Add custom Font Types
 function springy_preprocess_html(&$variables) {
@@ -68,4 +65,3 @@ function springy_css_alter(&$css) {
     unset($css[drupal_get_path('module','system').'/system.theme.css']);
     unset($css[drupal_get_path('module','system').'/system.menus.css']);
 }
-
