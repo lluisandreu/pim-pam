@@ -1,12 +1,4 @@
-@font-face {
-    font-family: entypo;
-    src: url('fonts/entypo.eot') format('eot');
-    src: url('fonts/entypo.woff') format('woff');
-    font-stretch: normal;
-    font-weight: normal;
-}
-
-i, span.collapse-trigger {font-family: "entypo" !important;}
+i,span.collapse-trigger{font-family:entypo!important}
 
 #block-popupnav-popupnav {
     display: none;
@@ -24,21 +16,41 @@ i, span.collapse-trigger {font-family: "entypo" !important;}
     opacity: 0;
     overflow-x: hidden;
     overflow-y: auto;
+
+    -webkit-transform: translateX(100%);
     transform: translateX(100%);
     -ms-transform: translateX(100%);
-    -webkit-transform: translateX(100%);
+
+    -webkit-transform: translateZ(0) translateX(100%);
+    transform: translateZ(0) translateX(100%);
+
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+
     transition-property: transform;
     transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
+
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 #popupnav-fullscreen.visible {
-    transform: translateX(0);
+
     -webkit-transform: translateX(0);
+    transform: translateX(0);
     -ms-transform: translateX(0);
+
+    -webkit-transform: translateZ(0) translateX(0);
+    transform: translateZ(0) translateX(0);
+
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
     transition-property: transform;
     transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
+
     opacity: 0.95;
     z-index: 9999;
 }
@@ -107,7 +119,6 @@ i, span.collapse-trigger {font-family: "entypo" !important;}
 }
 
 #popupnav-fullscreen ul li.parent-item {
-    background-color: #F7F7F7;
     position: relative;
     margin: 10px auto;
 }

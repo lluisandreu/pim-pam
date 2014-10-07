@@ -90,6 +90,17 @@ $form['popupnav_breakpoint'] = array(
     '#description' => t('Value in Pixels'),
     ),
 );
+
+$form['popupnav_extra'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Extra settings'),
+
+    'popupnav_extra_entypo' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Load Entypo Font'),
+        '#default_value' => variable_get('popupnav_extra_entypo', TRUE),
+    ),
+);
 }
 return $form;
 }
@@ -109,6 +120,7 @@ function popupnav_block_save($delta = '', $edit = array()) {
         variable_set('popupnav_breakpoint_enable', $edit['popupnav_breakpoint_enable']);
         variable_set('popupnav_breakpoint_settings', $edit['popupnav_breakpoint_settings']);
         variable_set('popupnav_breakpoint_hide', $edit['popupnav_breakpoint_hide']);
+        variable_set('popupnav_extra_entypo', $edit['popupnav_extra_entypo']);
     }
 }
 
@@ -168,6 +180,8 @@ function popupnav_preprocess_block(&$variables, $hook){
 
 function theme_popupnav_theme($variables = array()){
 
+    addEntypo();
+
     $block = block_load("popupnav", "popupnav");
     $block_title = ($block->title);
     $show_title = variable_get('popupnav_settings_title', FALSE);
@@ -194,7 +208,7 @@ function theme_popupnav_theme($variables = array()){
     } else {
         $output .= '<div id="popupnav-fullscreen" role="dialog"><div class="popupnav-wrapper">';
     }
-    $output .= '<div class="popupnav-close"><a href="#">'.$menu_closer.'</a></div>';
+    $output .= '<div class="popupnav-close icon-cancel"><a href="#">'.$menu_closer.'</a></div>';
     if($show_title){
         $output .= '<h2>'.$block_title.'</h2>';
     }
@@ -233,3 +247,21 @@ function theme_popupnav_theme($variables = array()){
     $output .= '</div>'; // #popupnav-container
     return $output;
 }
+
+function addEntypo(){
+
+    $load_entypo = variable_get('popupnav_extra_entypo');
+    if($load_entypo) {
+        drupal_add_css(
+          "/*Add entypo font, called from popupnav module*/ @font-face{font-family:entypo;src:url(" . drupal_get_path("module", "popupnav") . "/fonts/entypo.eot) format('eot');src:url(".drupal_get_path("module", "popupnav")."/fonts/entypo.woff) format('woff');font-stretch:normal;font-weight:400}",
+          array(
+            'group' => CSS_DEFAULT,
+            'type' => 'inline',
+            'media' => 'all',
+            'preprocess' => FALSE,
+            'weight' => '9999',
+          )
+        );
+    }
+}
+

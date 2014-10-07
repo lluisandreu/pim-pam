@@ -54,7 +54,7 @@
 
     function collapseChildren(){
         var parent = $('li.parent-item');
-        var trigger = '<span class="collapse-trigger collapsed">&#59236;</span>';
+        var trigger = '<span class="collapse-trigger collapsed">&#10133;</span>';
         parent.append(trigger);
         $('.collapse-trigger').click(function(event) {
             if($(this).hasClass('collapsed')){
@@ -66,12 +66,12 @@
     }
     function openCollapse(element) {
         element.siblings('ul.collapse').slideDown(400);
-        element.html('&#59239;').removeClass('collapsed').addClass('open');
+        element.html('&#10134;').removeClass('collapsed').addClass('open');
     }
 
     function collapse(element){
         element.siblings('ul.collapse').slideUp(400);
-        element.html('&#59236;').removeClass('open').addClass('collapsed');
+        element.html('&#10133;').removeClass('open').addClass('collapsed');
     }
 
     function openMenu() {
