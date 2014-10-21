@@ -16,6 +16,7 @@
         <div class="row">
             <div class="twelve columns">
                 <?php print render($page['nav']); ?>
+
             </div>
         </div>
     </nav>
@@ -44,6 +45,7 @@
                     <?php else: ?>
                         <article class="twelve columns">
                             <h1><?php print $title; ?></h1>
+                            <?php print render($tabs); ?>
                             <?php print render($page['content']); ?>
                         </article>
                     <?php endif; ?>

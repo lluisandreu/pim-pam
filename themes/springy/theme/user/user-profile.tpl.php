@@ -1,5 +1,5 @@
-<div class="iac-container">
-    <div class="profile"<?php print $attributes; ?>>
+<div class="iac-container login-page">
+    <div class="login-page__profile"<?php print $attributes; ?>>
       <?php print render($user_profile); ?>
     </div>
     <?php

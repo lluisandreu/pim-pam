@@ -55,48 +55,6 @@ box-shadow: 23px 25px 23px -21px rgba(0,0,0,0.75);
     }
 }
 
-/// ERRORS LINK
-.alert.danger a {color: #fff;}
 
 
-/// LOGIN PAGE
 
-.login-body {
-  margin: 20px 0 ;
-  .description {@include font-size(12px);}
-  .password-recovery {margin-top: 20px;}
-  .field {margin-bottom: 0;}
-  .form-item {margin-bottom: 15px;}
-}
-
-
-/// INLINE EDITING
-.iac-container {
-  position: relative;
-}
-
-.iac {
-  position: absolute; }
-
-.iac a {
-  display: block;
-  z-index: 20;
-  text-decoration: none;
-}
-
-.iac-edit {
-  top: 30px;
-  right: 5px;
-}
-
-.iac-rearrange {
-  top: 70px;
-  right: 5px;
-}
-
-.iac-edit a, .iac-rearrange a {
-  color: #fff !important;
-  font-family: $font-family;
-  font-weight: $font-weight-light;
-  @include font-size(14px);
-}
