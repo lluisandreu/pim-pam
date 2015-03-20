@@ -181,6 +181,7 @@ function popupnav_preprocess_block(&$variables, $hook){
 function theme_popupnav_theme($variables = array()){
 
     addEntypo();
+    hideMainMenu();
 
     $block = block_load("popupnav", "popupnav");
     $block_title = ($block->title);
@@ -201,12 +202,12 @@ function theme_popupnav_theme($variables = array()){
     $output = '<div id="popupnav-container">';
     if($breakpoint_enable && $menu_depth > 0){
         if(!empty($replace_menu_id)){
-            $output .= '<div id="popupnav-fullscreen" role="dialog" data-breakpoint="'.$breakpoint.'" data-replace="'.$replace_menu_id.'"><div class="popupnav-wrapper">';
+            $output .= '<div id="popupnav-fullscreen" class="closed" role="dialog" data-breakpoint="'.$breakpoint.'" data-replace="'.$replace_menu_id.'"><div class="popupnav-wrapper">';
         } else {
-            $output .= '<div id="popupnav-fullscreen" role="dialog" data-breakpoint="'.$breakpoint.'"><div class="popupnav-wrapper">';
+            $output .= '<div id="popupnav-fullscreen" class="closed" role="dialog" data-breakpoint="'.$breakpoint.'"><div class="popupnav-wrapper">';
         }
     } else {
-        $output .= '<div id="popupnav-fullscreen" role="dialog"><div class="popupnav-wrapper">';
+        $output .= '<div id="popupnav-fullscreen" class="closed" role="dialog"><div class="popupnav-wrapper">';
     }
     $output .= '<div class="popupnav-close icon-cancel"><a href="#">'.$menu_closer.'</a></div>';
     if($show_title){
@@ -228,7 +229,7 @@ function theme_popupnav_theme($variables = array()){
                         if($menu_depth > 0 && !empty($link['below'])) {
                             $output .= '<ul';
                             if($collapse && $menu_depth > 0){
-                                $output .=  ' class="collapse" ';
+                                $output .=  ' class="child-closed" ';
                             }
                             $output .= '>';
                             foreach ($link['below'] as $second_link) {
@@ -253,7 +254,7 @@ function addEntypo(){
     $load_entypo = variable_get('popupnav_extra_entypo');
     if($load_entypo) {
         drupal_add_css(
-          "/*Add entypo font, called from popupnav module*/ @font-face{font-family:entypo;src:url(" . drupal_get_path("module", "popupnav") . "/fonts/entypo.eot) format('eot');src:url(".drupal_get_path("module", "popupnav")."/fonts/entypo.woff) format('woff');font-stretch:normal;font-weight:400}",
+          "/*Add entypo font, called from popupnav module*/ @font-face{font-family:entypo;src:url(".drupal_get_path("module", "popupnav")."/fonts/entypo.woff) format('woff');src:url(" . drupal_get_path("module", "popupnav") . "/fonts/entypo.eot) format('eot');font-stretch:normal;font-weight:400}",
           array(
             'group' => CSS_DEFAULT,
             'type' => 'inline',
@@ -265,3 +266,19 @@ function addEntypo(){
     }
 }
 
+function hideMainMenu(){
+    $reponsive = variable_get('popupnav_breakpoint_enable');
+    if(isset($responsive)){
+        $menuHide = variable_get('popupnav_settings_hide');
+        drupal_add_css(
+          $menuhide . " {display: none; }",
+          array(
+            'group' => CSS_DEFAULT,
+            'type' => 'inline',
+            'media' => 'all',
+            'preprocess' => FALSE,
+            'weight' => '9999',
+          )
+        );
+    }
+}

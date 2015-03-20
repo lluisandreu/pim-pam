@@ -1,7 +1,7 @@
 name = Full-Screen Pop-out Navigation
 description = Full-Screen Navigation for modern browsers. Inspired by Sebastiano Guerriero's article "Full-Screen Pop-Out Navigation" on http://codyhouse.co/
 core = 7.x
-version = 7.x-1.0
+version = 7.x-1.1
 package = Custom
 
 dependencies[] = menu
